@@ -6,11 +6,24 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const frontendUrl =
+  const rawFrontend =
     configService.get<string>('FRONTEND_URL') ?? 'http://localhost:5173';
+  const allowedOrigins = rawFrontend
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+  const corsOrigin = (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void,
+  ) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    return callback(new Error('CORS not allowed'), false);
+  };
 
   app.enableCors({
-    origin: frontendUrl,
+    origin: corsOrigin,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
