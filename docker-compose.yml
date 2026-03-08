@@ -11,7 +11,7 @@ services:
       - PORT=${BACKEND_PORT}
       - NODE_ENV=${NODE_ENV}
       - FRONTEND_URL=${FRONTEND_URL}
-    expose:
+    ports:
       - "${BACKEND_PORT}:${BACKEND_PORT}"
 
   frontend:

@@ -15,8 +15,6 @@ async function bootstrap() {
     credentials: true,
   });
 
-  console.log(`Frontend URL: ${frontendUrl}`);
-
   const port = configService.get<number>('APP_PORT') ?? 3000;
   await app.listen(port);
 }
