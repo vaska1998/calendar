@@ -14,7 +14,8 @@ interface SimpleRequest {
   };
 }
 
-export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+const _metaEnv: any = (import.meta as any).env ?? {};
+export const API_URL = _metaEnv.VITE_API_URL ?? _metaEnv.VITE_API_BASE_URL ?? '/api';
 
 export const getConnection = (req?: SimpleRequest): ConnectionType => {
   if (!req && typeof window == 'undefined') {
